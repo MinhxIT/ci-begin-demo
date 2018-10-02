@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class Player extends GameObject {
     FrameCounter fireCounter;
+
     public Player() {
         // load ra chuỗi ảnh để tạo thành nhân vật động
         ArrayList<BufferedImage> images = SpriteUtils.loadImages(
@@ -49,15 +50,17 @@ public class Player extends GameObject {
             this.fire();
         }
     }
-    public void fire(){
-//            PlayerBullet playerBullet = new PlayerBullet();
-//            GameCanvas.playerBullets.add(playerBullet); // new 1 đạn mới
-            PlayerBullet playerBullet = GameObject.create(PlayerBullet.class);
-            PlayerBullet1 playerBullet1 = GameObject.create(PlayerBullet1.class);
-            playerBullet.position.set(this.position.x, this.position.y); // cho tọa độ của đạn trùng tọa độ với player
-            playerBullet1.position.set(this.position.x, this.position.y);
-            this.fireCounter.reset(); // reste lại
+
+    public void fire() {
+        PlayerBullet playerBullet = GameObject.create(PlayerBullet.class);
+        playerBullet.position.set(this.position.x, this.position.y); // cho tọa độ của đạn trùng tọa độ với player
+        PlayerBulletLeft playerBulletLeft = GameObject.create(PlayerBulletLeft.class);
+        playerBulletLeft.position.set(this.position.x, this.position.y); // cho tọa độ của đạn trùng tọa độ với player
+        PlayerBulletRight playerBulletRight = GameObject.create(PlayerBulletRight.class);
+        playerBulletRight.position.set(this.position.x, this.position.y); // cho tọa độ của đạn trùng tọa độ với player
+        this.fireCounter.reset(); // reste lại
     }
+
     public void move(int translateX, int translateY) {
         this.position.addThis(translateX, translateY);
     }

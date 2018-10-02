@@ -1,5 +1,6 @@
 package base;
 
+import base.counter.FrameCounter;
 import base.renderer.AnimationRenderer;
 import game.GameCanvas;
 import tklibs.SpriteUtils;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Enemy extends GameObject {
+    //FrameCounter fireCounter;
     Random random = new Random();
     int positionEnemy = random.nextInt(384);
     int move = -2 + random.nextInt(5);
@@ -34,7 +36,6 @@ public class Enemy extends GameObject {
     @Override
     public void run() {
         this.move();
-
     }
     public void move(){
         this.position.x +=move;

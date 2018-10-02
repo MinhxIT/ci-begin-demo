@@ -17,7 +17,6 @@ public class GameCanvas extends JPanel {
         this.background = GameObject.create(Background.class); // nền
         this.player = GameObject.create(Player.class); // nhân vật
         Enemy enemy = GameObject.create(Enemy.class);
-
     }
 
     public void render(Graphics g) {

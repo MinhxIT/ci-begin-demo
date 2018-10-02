@@ -57,4 +57,6 @@ public class GameObject {
     // hàm logic
     public void run() {
     }
+    public void run(int a,int b ) {
+    }
 }

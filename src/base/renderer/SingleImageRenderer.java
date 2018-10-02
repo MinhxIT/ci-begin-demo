@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 public class SingleImageRenderer extends Renderer {
     // chứa đối tượng ảnh đơn
     BufferedImage image;
+
     public SingleImageRenderer(String url) {
         this.image = SpriteUtils.loadImage(url);
     }
