@@ -10,9 +10,8 @@ import java.util.ArrayList;
 public class AnimationRenderer extends Renderer { // tạo hiệu ứng ảnh động animation
     // 1 chuỗi những single image
     ArrayList<BufferedImage> images;
-    FrameCounter frameCount;
+    FrameCounter frameCount; // số khung hình
     int currentImage = 0; // ảnh hiện tại là 0
-
     public AnimationRenderer(ArrayList<BufferedImage> images) {
         this.images = images;
         this.frameCount = new FrameCounter(5); // init trong hàm tạo

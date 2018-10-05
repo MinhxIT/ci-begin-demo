@@ -10,10 +10,13 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Player extends GameObject {
+public class Player extends GameObject implements Physics{
+    public static int HP;
     FrameCounter fireCounter;
-
+    BoxCollider collider;
     public Player() {
+
+        super();
         // load ra chuỗi ảnh để tạo thành nhân vật động
         ArrayList<BufferedImage> images = SpriteUtils.loadImages(
                 "assets/images/players/straight/0.png",
@@ -25,12 +28,16 @@ public class Player extends GameObject {
                 "assets/images/players/straight/6.png"
         );
         // thực hiện render
+        HP = Settings.HP_PLAYER;
         this.renderer = new AnimationRenderer(images);
         // vị trí hiển thị
         this.position = new Vector2D(Settings.START_PLAYER_POSITION_X, Settings.START_PLAYER_POSITION_Y);
+        this.collider = new BoxCollider(32, 48);// kích thước player
         this.fireCounter = new FrameCounter(10); // 10 frame 1 lần bắn
     }
-
+    public void move(int translateX, int translateY) {
+        this.position.addThis(translateX, translateY);
+    }
     @Override
     public void run() {
         if (KeyEventPress.isUpPress) {
@@ -52,16 +59,22 @@ public class Player extends GameObject {
     }
 
     public void fire() {
-        PlayerBullet playerBullet = GameObject.create(PlayerBullet.class);
+        PlayerBullet playerBullet = GameObject.recycle(PlayerBullet.class);
+        PlayerBullet playerBulletLeft = GameObject.recycle(PlayerBullet.class);
+        PlayerBullet playerBulletRight = GameObject.recycle(PlayerBullet.class);
+
+        playerBullet.velocity.set(0,-3);
+        playerBulletLeft.velocity.set(-3,-3);
+        playerBulletRight.velocity.set(3,-3);
+
         playerBullet.position.set(this.position.x, this.position.y); // cho tọa độ của đạn trùng tọa độ với player
-        PlayerBulletLeft playerBulletLeft = GameObject.create(PlayerBulletLeft.class);
-        playerBulletLeft.position.set(this.position.x, this.position.y); // cho tọa độ của đạn trùng tọa độ với player
-        PlayerBulletRight playerBulletRight = GameObject.create(PlayerBulletRight.class);
-        playerBulletRight.position.set(this.position.x, this.position.y); // cho tọa độ của đạn trùng tọa độ với player
-        this.fireCounter.reset(); // reste lại
+        playerBulletRight.position.set(this.position.x, this.position.y);
+        playerBulletLeft.position.set(this.position.x, this.position.y);
+        this.fireCounter.reset(); // reset lại
     }
 
-    public void move(int translateX, int translateY) {
-        this.position.addThis(translateX, translateY);
+    @Override
+    public BoxCollider getBoxCollider() {
+        return this.collider;
     }
 }
