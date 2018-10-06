@@ -35,7 +35,7 @@ public class PlayerBullet extends GameObject implements Physics {
             this.destroy(); //
             return;
         }
-       // this.position.addThis(this.velocity.x, this.velocity.y); //
+        this.position.addThis(this.velocity.x, this.velocity.y); //
     }
 
     @Override
