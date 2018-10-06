@@ -48,13 +48,13 @@ public class Enemy extends GameObject implements Physics {
 
     @Override
     public void run() {
-        this.move();
+       // this.move();
         boolean fireCounterRun = this.fireCounter.run();
-        if (Player.HP > 0) {
+//        if (Player.HP > 0) {
             if (fireCounterRun) {
                 this.fire();
             }
-        }
+//        }
     }
 
     public void move() {

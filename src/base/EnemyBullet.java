@@ -14,12 +14,12 @@ public class EnemyBullet extends GameObject implements Physics {
 
     public EnemyBullet() {
         super();
-        ArrayList<BufferedImage> images = SpriteUtils.loadImages("assets/images/enemies/bullets/blue.png");
+        ArrayList<BufferedImage> images = SpriteUtils.loadImages("assets/images/enemies/bullets/blue.png");// ảnh đạn
         this.renderer = new AnimationRenderer(images); // vẽ ảnh động
         this.position = new Vector2D(0, 0); // vị trí
         this.velocity = new Vector2D(0, 0); // gia tốc
-        this.collider = new BoxCollider(16, 16);
-        damage = Settings.DAMAGE_ENEMY_BULLET;
+        this.collider = new BoxCollider(16, 16); // kích thước
+        damage = Settings.DAMAGE_ENEMY_BULLET; // damage
 
     }
 
@@ -35,7 +35,6 @@ public class EnemyBullet extends GameObject implements Physics {
                 player.destroy(); // nếu máu hết thì die
             }
             return;
-
         }
         this.position.addThis(this.velocity.x, this.velocity.y);
     }
