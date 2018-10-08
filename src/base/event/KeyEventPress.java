@@ -1,4 +1,4 @@
-package base;
+package base.event;
 
 public class KeyEventPress {
     public static boolean isUpPress;

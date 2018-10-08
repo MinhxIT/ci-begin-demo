@@ -1,17 +1,18 @@
-package base;
+package base.player;
 
+import base.*;
 import base.counter.FrameCounter;
+import base.event.KeyEventPress;
+import base.physics.BoxCollider;
+import base.physics.Physics;
 import base.renderer.AnimationRenderer;
-import base.renderer.SingleImageRenderer;
-import game.GameCanvas;
 import tklibs.SpriteUtils;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Player extends GameObject implements Physics{
-    public static int HP;
+public class Player extends GameObject implements Physics {
+    public int HP;
     FrameCounter fireCounter;
     BoxCollider collider;
     public Player() {
@@ -28,7 +29,7 @@ public class Player extends GameObject implements Physics{
                 "assets/images/players/straight/6.png"
         );
         // thực hiện render
-        HP = Settings.HP_PLAYER;
+        this.HP = Settings.HP_PLAYER;
         this.renderer = new AnimationRenderer(images);
         // vị trí hiển thị
         this.position = new Vector2D(Settings.START_PLAYER_POSITION_X, Settings.START_PLAYER_POSITION_Y);
@@ -72,7 +73,13 @@ public class Player extends GameObject implements Physics{
         playerBulletLeft.position.set(this.position.x, this.position.y);
         this.fireCounter.reset(); // reset lại
     }
-
+    public void takeDamage(int damage){
+        this.HP -= damage;
+        if (this.HP<=0){
+            this.destroy(); // bien mat
+            HP = 0;
+        }
+    }
     @Override
     public BoxCollider getBoxCollider() {
         return this.collider;

@@ -1,4 +1,6 @@
-package base;
+package base.physics;
+
+import base.GameObject;
 
 public class BoxCollider {// đại diện cho thân hình vật lý của những cái tính toán va chạm: ở đây là HCN. HCN có 2 thứ để đánh dầu
     public int width;

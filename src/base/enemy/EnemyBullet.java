@@ -1,17 +1,19 @@
-package base;
+package base.enemy;
 
+import base.*;
+import base.physics.BoxCollider;
+import base.physics.Physics;
+import base.player.Player;
 import base.renderer.AnimationRenderer;
 import tklibs.SpriteUtils;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Set;
 
 public class EnemyBullet extends GameObject implements Physics {
-    public static int damage;
+    public int damage;
     Vector2D velocity; // gia tốc
     BoxCollider collider;
-
     public EnemyBullet() {
         super();
         ArrayList<BufferedImage> images = SpriteUtils.loadImages("assets/images/enemies/bullets/blue.png");// ảnh đạn
@@ -27,14 +29,8 @@ public class EnemyBullet extends GameObject implements Physics {
     public void run() {
         Player player = GameObject.intersect(Player.class, this);
         if (player != null) { // nếu player trúng đạn
-            this.destroy(); // đạn biến mất
-            if (Player.HP > 0) { // nếu máu của player vẫn còn
-                Player.HP -= EnemyBullet.damage; // mỗi lần bắn trúng thì máu sẽ bị trừ đi số damage
-                return;
-            } else {
-                player.destroy(); // nếu máu hết thì die
-            }
-            return;
+            player.takeDamage(damage);
+            this.destroy();
         }
         this.position.addThis(this.velocity.x, this.velocity.y);
     }

@@ -1,11 +1,11 @@
 package game;
 
 import base.*;
+import base.enemy.Enemy;
+import base.player.Player;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class GameCanvas extends JPanel {
 //    Random random = new Random();

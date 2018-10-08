@@ -1,12 +1,15 @@
-package base;
+package base.player;
 
+import base.physics.BoxCollider;
+import base.GameObject;
+import base.physics.Physics;
+import base.Vector2D;
+import base.enemy.Enemy;
 import base.renderer.AnimationRenderer;
-import game.GameCanvas;
 import tklibs.SpriteUtils;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class PlayerBullet extends GameObject implements Physics {
     Vector2D velocity; // gia tốc bắn đạn
@@ -20,12 +23,12 @@ public class PlayerBullet extends GameObject implements Physics {
         this.renderer = new AnimationRenderer(images); // chạy ảnh động đạn
         this.position = new Vector2D(0, 0); // vị trí của đạn
         this.velocity = new Vector2D(0, 0); // tốc độ di chuyển
-        this.collider = new BoxCollider(24, 24); // kích thước đạn
+        this.collider = new BoxCollider(16, 16); // kích thước đạn
     }
 
     @Override
     public void run() {
-        Enemy enemy = GameObject.intersect(Enemy.class, this); // xét va chamh của
+        Enemy enemy = GameObject.intersect(Enemy.class, this); // xét va chamh của enemy voi player
         if (enemy != null) { // nếu enemy có va chạm với đạn
             enemy.destroy(); // địch nát
             this.destroy(); // đạn nát

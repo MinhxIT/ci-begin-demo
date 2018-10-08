@@ -1,5 +1,6 @@
 package base;
 
+import base.physics.Physics;
 import base.renderer.Renderer;
 
 import java.awt.*;
@@ -10,6 +11,7 @@ public class GameObject {
 
     public static ArrayList<GameObject> gameObjects = new ArrayList<>(); // chứa tất cả class gameObject
     public static ArrayList<GameObject> newGameObjects = new ArrayList<>(); // khắc phục lỗi
+    public boolean isActive;
 
     //create(className)
     public static <E extends GameObject> E create(Class<E> childClass) { // hàm tạo
@@ -25,7 +27,9 @@ public class GameObject {
 
     public static <E extends GameObject> E recycle(Class<E> childClass) {
         //1. Kiểm tra có gameObject thỏa mãn yêu cầu ko: (isActive == false && go instance chilClass) ko
-        for (GameObject go : gameObjects) {
+        for (int i = 0; i < gameObjects.size(); i++) {
+
+            GameObject go = gameObjects.get(i);
             if (!go.isActive && go.getClass().isAssignableFrom(childClass)) { // kiểm tra go có thuộc class này ko
                 //
                 go.isActive = true;
@@ -37,13 +41,16 @@ public class GameObject {
         // trả về gameObject
         return create(childClass); // tạo mới
     }
+
     // va chạm
     public static <E extends GameObject> E intersect(Class<E> childClass, Physics physics) {
-        for (GameObject go : gameObjects) {
+        for (int i = 0; i < gameObjects.size(); i++) {
+
+            GameObject go = gameObjects.get(i);
             if (go.isActive && go.getClass().isAssignableFrom(childClass) && go instanceof Physics) {
                 Physics physicsGo = (Physics) go;
                 boolean intersected = physics.getBoxCollider().intersect(physicsGo, (GameObject) physics);
-                if (intersected){
+                if (intersected) {
                     return (E) physicsGo;
                 }
             }
@@ -66,8 +73,10 @@ public class GameObject {
     }
 
     public static void renderAll(Graphics g) {
-        for (GameObject go : gameObjects) {
-            if (go.isActive) {
+        for (int i = 0; i < gameObjects.size(); i++) {
+
+            GameObject go = gameObjects.get(i);
+            if (go.isActive) { // nếu gameObject kích họa thì mới run
                 go.render(g);
             }
         }
@@ -75,9 +84,8 @@ public class GameObject {
         newGameObjects.clear();
     }
 
-    Renderer renderer;// có: ảnh, vị trí x, vị trí y,
+    public Renderer renderer;// có: ảnh, vị trí x, vị trí y,
     public Vector2D position;
-    public boolean isActive;
 
     public GameObject() {
         this.isActive = true;

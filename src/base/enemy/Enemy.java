@@ -1,8 +1,14 @@
-package base;
+package base.enemy;
 
-import base.counter.FrameCounter;
+import base.physics.BoxCollider;
+import base.GameObject;
+import base.physics.Physics;
+import base.Vector2D;
+import base.action.Action;
+import base.action.ActionRepeat;
+import base.action.ActionSequence;
+import base.action.ActionWait;
 import base.renderer.AnimationRenderer;
-import game.GameCanvas;
 import tklibs.SpriteUtils;
 
 import java.awt.image.BufferedImage;
@@ -13,8 +19,8 @@ public class Enemy extends GameObject implements Physics {
     Random random = new Random();
     int move = -2 + random.nextInt(2); // di chuyển
 
-    FrameCounter fireCounter;
     BoxCollider collider;
+    Action action;
 
     public Enemy() {
         super();
@@ -35,38 +41,40 @@ public class Enemy extends GameObject implements Physics {
         // vị trí của quái
         this.position = new Vector2D(200, 100);
         this.collider = new BoxCollider(28, 28);
-        this.fireCounter = new FrameCounter(20); // 10 frame 1 lần bắn
+        this.defineAction();
+        //  Actionrepeat: thực hiện lặp lại, trong ActionSequence sẽ là ActionWait 20s sau đó fire
+    }
 
+    private void defineAction() {
+        ActionWait actionWait = new ActionWait(20); // chờ
+        Action actionFire = new Action() {
+            @Override
+            public void run(GameObject master) {
+                fire(); // fire của Action: action
+                this.isDone = true;
+            }
+
+            @Override
+            public void reset() {
+                this.isDone = false;
+            }
+        };
+        ActionSequence actionSequence = new ActionSequence(actionWait, actionFire);
+        ActionRepeat actionRepeat = new ActionRepeat(actionSequence);
+        this.action = actionRepeat;
     }
 
     public void fire() {
         EnemyBullet enemyBullet = GameObject.recycle(EnemyBullet.class);
-        enemyBullet.velocity.set(0, 3);
-        enemyBullet.position.set(this.position.x, this.position.y);
-        this.fireCounter.reset();
+        enemyBullet.position.set(this.position.x, this.position.y + 5);
+        enemyBullet.velocity.addThis(0,3);
     }
 
     @Override
     public void run() {
-       // this.move();
-        boolean fireCounterRun = this.fireCounter.run();
-//        if (Player.HP > 0) {
-            if (fireCounterRun) {
-                this.fire();
-            }
-//        }
+        // this.move();
+            this.action.run(this);
     }
-
-    public void move() {
-        if (this.position.x > 0 || this.position.y < 384) {
-            this.position.x += move;
-            this.position.y += move;
-        } else {
-            this.position.x -= move;
-            this.position.y -= move;
-        }
-    }
-
 
     @Override
     public BoxCollider getBoxCollider() {
