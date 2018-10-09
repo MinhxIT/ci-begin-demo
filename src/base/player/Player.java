@@ -39,26 +39,6 @@ public class Player extends GameObject implements Physics {
     public void move(int translateX, int translateY) {
         this.position.addThis(translateX, translateY);
     }
-    @Override
-    public void run() {
-        if (KeyEventPress.isUpPress) {
-            this.move(0, -2);
-        }
-        if (KeyEventPress.isDownPress) {
-            this.move(0, 2);
-        }
-        if (KeyEventPress.isLeftPress) {
-            this.move(-2, 0);
-        }
-        if (KeyEventPress.isRightPress) {
-            this.move(2, 0);
-        }
-        boolean fireCounterRun = this.fireCounter.run();
-        if (KeyEventPress.isSpacePress && fireCounterRun) {
-            this.fire();
-        }
-    }
-
     public void fire() {
         PlayerBullet playerBullet = GameObject.recycle(PlayerBullet.class);
         PlayerBullet playerBulletLeft = GameObject.recycle(PlayerBullet.class);
@@ -80,6 +60,27 @@ public class Player extends GameObject implements Physics {
             HP = 0;
         }
     }
+    @Override
+    public void run() {
+        if (KeyEventPress.isUpPress) {
+            this.move(0, -2);
+        }
+        if (KeyEventPress.isDownPress) {
+            this.move(0, 2);
+        }
+        if (KeyEventPress.isLeftPress) {
+            this.move(-2, 0);
+        }
+        if (KeyEventPress.isRightPress) {
+            this.move(2, 0);
+        }
+        boolean fireCounterRun = this.fireCounter.run();
+        if (KeyEventPress.isSpacePress && fireCounterRun) {
+            this.fire();
+        }
+    }
+
+
     @Override
     public BoxCollider getBoxCollider() {
         return this.collider;
