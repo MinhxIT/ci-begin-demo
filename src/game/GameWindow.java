@@ -6,6 +6,8 @@ import base.Settings;
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GameWindow extends JFrame {
     //GameWindow chứa gameLoop -> GameCanvas
@@ -15,6 +17,7 @@ public class GameWindow extends JFrame {
     public GameWindow() {
         this.setSize(Settings.SCREEN_WIDHT, Settings.SCREEN_HEIGHT);
         this.setDefaultCloseOperation(GameWindow.EXIT_ON_CLOSE);
+        this.setResizable(false);
         //init game
         this.setupEventListener();
         this.gameCanvas = new GameCanvas();
@@ -44,6 +47,7 @@ public class GameWindow extends JFrame {
                         break;
                     case KeyEvent.VK_SPACE:
                         KeyEventPress.isSpacePress = true;
+                        break;
                     default:
                         break;
                 }
@@ -67,11 +71,27 @@ public class GameWindow extends JFrame {
                         break;
                     case KeyEvent.VK_SPACE:
                         KeyEventPress.isSpacePress = false;
+                        break;
                     default:
                         break;
                 }
             }
 
+        });
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getButton() == e.BUTTON1) {
+                    KeyEventPress.isMousePress = true;
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.getButton() == e.BUTTON1) {
+                    KeyEventPress.isMousePress = false;
+                }
+            }
         });
     }
 
@@ -79,8 +99,9 @@ public class GameWindow extends JFrame {
     public void gameLoop() {
         while (true) {
             try {
-                gameCanvas.run();
-                this.repaint();
+                gameCanvas.run(); // run all
+                gameCanvas.render(); // render all  backBuffer
+                this.repaint(); // render back buffer to game
                 Thread.sleep(20);
             } catch (InterruptedException e) {
                 e.printStackTrace();

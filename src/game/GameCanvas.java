@@ -2,6 +2,7 @@ package game;
 
 import base.*;
 import base.enemy.Enemy;
+import base.enemy.EnemyType1;
 import base.player.Player;
 
 import javax.swing.*;
@@ -16,11 +17,11 @@ public class GameCanvas extends JPanel {
     public GameCanvas() {
         this.background = GameObject.recycle(Background.class); // nền
         this.player = GameObject.recycle(Player.class); // nhân vật
-        Enemy enemy = GameObject.recycle(Enemy.class); // quái
+        EnemyType1 enemyType1 = GameObject.recycle(EnemyType1.class); // quái
     }
 
-    public void render(Graphics g) {
-        GameObject.renderAll(g);
+    public void render() {
+        GameObject.renderAllToBackBuffer();
     } // vẽ lên giao diện
 
     public void run() {
@@ -29,7 +30,7 @@ public class GameCanvas extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        this.render(g);
+        GameObject.renderBackBufferToGame(g);
     }
 }
   

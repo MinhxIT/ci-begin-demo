@@ -27,12 +27,12 @@ public class EnemyBullet extends GameObject implements Physics {
 
     @Override
     public void run() {
-        Player player = GameObject.intersect(Player.class, this);
+        Player player = GameObject.intersect(Player.class, this); // xét va chạm player với enemyBullet
         if (player != null) { // nếu player trúng đạn
-            player.takeDamage(damage);
-            this.destroy();
+            player.takeDamage(damage); // player nhận damage
+            this.destroy(); // sau đó thì đạn bị hủy
         }
-        this.position.addThis(this.velocity.x, this.velocity.y);
+        this.position.addThis(velocity); // tốc độ đạn đi
     }
 
     @Override

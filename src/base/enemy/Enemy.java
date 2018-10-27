@@ -20,22 +20,8 @@ public class Enemy extends GameObject implements Physics {
     public Enemy() {
         super();
         // tạo list chứa chuỗi ảnh làm ảnh động
-        ArrayList<BufferedImage> images = SpriteUtils.loadImages(
-                "assets/images/enemies/level0/black/0.png",
-                "assets/images/enemies/level0/black/1.png",
-                "assets/images/enemies/level0/black/2.png",
-                "assets/images/enemies/level0/black/4.png",
-                "assets/images/enemies/level0/black/5.png",
-                "assets/images/enemies/level0/black/6.png",
-                "assets/images/enemies/level0/black/7.png",
-                "assets/images/enemies/level0/black/8.png"
-        );
 
-        // render
-        this.renderer = new AnimationRenderer(images);
-        // vị trí của quái
         this.position = new Vector2D(200, 100);
-        this.collider = new BoxCollider(28, 28);
         this.defineAction();
         //  Actionrepeat: thực hiện lặp lại, trong ActionSequence sẽ là ActionWait 20s sau đó fire
     }
@@ -85,23 +71,15 @@ public class Enemy extends GameObject implements Physics {
         };
         // chờ 1 lúc -> vừa bắn vừa đi sang trái -> nếu kịch màn hình, thì dừng lại -> chờ 1 lúc -> phát hiện bị kịch
         // sang phải
-        ActionParallel actionParallel = new ActionParallel(actionMoveLeft, actionFire); // song song bắn và di chuyển
-        ActionParallel actionParallel1 = new ActionParallel(actionMoveRight,actionFire);
+        //ActionParallel actionParallel = new ActionParallel(actionMoveLeft, actionFire); // song song bắn và di chuyển
 
-        ActionSequence actionSequence = new ActionSequence(actionWait,actionParallel);
+        ActionSequence actionSequence = new ActionSequence(actionWait,actionFire);
         ActionRepeat actionRepeat = new ActionRepeat(actionSequence);
 
         this.action = actionRepeat;
 
     }
 
-    public void fire() {
-        EnemyBullet enemyBullet = GameObject.recycle(EnemyBullet.class);
-        enemyBullet.position.set(this.position.x, this.position.y + 5);
-        enemyBullet.velocity.addThis(0, 3);
-    }
-
-    Background background = new Background();
 
     public void move() {
         this.position.x -= 3;
@@ -113,9 +91,17 @@ public class Enemy extends GameObject implements Physics {
         // this.move();
         this.action.run(this);
     }
+    public void fire() {
+        EnemyBullet enemyBullet = GameObject.recycle(EnemyBullet.class);
+        enemyBullet.position.set(this.position.x, this.position.y + 5);
+        enemyBullet.velocity.addThis(0, 3);
+    }
 
+    public void takeDamage(int damage) {
+    }
     @Override
     public BoxCollider getBoxCollider() {
         return this.collider;
     }
+
 }

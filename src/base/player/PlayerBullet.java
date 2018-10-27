@@ -14,31 +14,30 @@ import java.util.ArrayList;
 public class PlayerBullet extends GameObject implements Physics {
     Vector2D velocity; // gia tốc bắn đạn
     BoxCollider collider; //
-
+    int damage;
     public PlayerBullet() {
         super();
-        ArrayList<BufferedImage> images = SpriteUtils.loadImages(
-                "assets/images/enemies/bullets/pink.png"
-        ); // ảnh đạn
-        this.renderer = new AnimationRenderer(images); // chạy ảnh động đạn
         this.position = new Vector2D(0, 0); // vị trí của đạn
         this.velocity = new Vector2D(0, 0); // tốc độ di chuyển
-        this.collider = new BoxCollider(16, 16); // kích thước đạn
     }
 
     @Override
     public void run() {
         Enemy enemy = GameObject.intersect(Enemy.class, this); // xét va chamh của enemy voi player
         if (enemy != null) { // nếu enemy có va chạm với đạn
-            enemy.destroy(); // địch nát
-            this.destroy(); // đạn nát
+            enemy.takeDamage(damage); // địch nát
+            this.hitEnemy(); // đạn nát
             return;
         }
         if (this.position.y < 0) { // nếu chạy quá màn hình thì hủy
             this.destroy(); //
             return;
         }
-        this.position.addThis(this.velocity.x, this.velocity.y); //
+        this.position.addThis(velocity); //
+    }
+
+    public void hitEnemy() {
+
     }
 
     @Override

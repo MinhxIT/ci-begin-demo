@@ -11,6 +11,7 @@ public class Background extends GameObject {
         BufferedImage image = SpriteUtils.loadImage("assets\\images\\background\\0.png");
         this.renderer = new SingleImageRenderer(image);
         this.position = new Vector2D(0,-(image.getHeight()-Settings.SCREEN_HEIGHT));
+        this.anchor.set(0,0); // vì set anchor là 0,5 0,5 thì vị trí backgrounmd sẽ ở tâm của background
     }
 
     @Override

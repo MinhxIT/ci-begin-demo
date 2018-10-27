@@ -23,22 +23,32 @@ public class Vector2D {
         Vector2D result = new Vector2D(this.x + x, this.y + y);
         return result;
     }
-
+    public Vector2D add(Vector2D other){
+        return this.add(other.x,other.y);
+    }
     public Vector2D addThis(float x, float y) {
         this.x += x;
         this.y += y;
         return this;
+    }
+    public Vector2D addThis(Vector2D other){
+        return this.addThis(other.x,other.y);
     }
 
     public Vector2D sub(float x, float y) {
         Vector2D result = new Vector2D(this.x - x, this.y - y);
         return result;
     }
-
+    public Vector2D sub(Vector2D other) {
+        return this.sub(other.x, other.y);
+    }
     public Vector2D subThis(float x, float y) {
         this.x -= x;
         this.y -= y;
         return this;
+    }
+    public Vector2D subThis(Vector2D other) {
+        return this.addThis(other.x,other.y);
     }
 
     public Vector2D scale(float n) {
@@ -46,7 +56,7 @@ public class Vector2D {
         return result;
     }
 
-    public Vector2D subThis(float n) {
+    public Vector2D scaleThis(float n) {
         this.x *= n;
         this.y *= n;
         return this;
@@ -55,6 +65,9 @@ public class Vector2D {
         this.x = x;
         this.y = y;
         return this;
+    }
+    public Vector2D set(Vector2D other){
+        return this.set(other.x,other.y);
     }
     public float length() {
         return (float) Math.sqrt(x * x + y * y);
